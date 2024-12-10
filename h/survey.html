@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استبيان بنك الأفكار</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ddd;
+        }
+
+        .container {
+            width: 600px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container h1 {
+            width: 100%;
+            background-color: #ddd;
+            border-bottom: 3px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .answers div {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            margin-bottom: 10px;
+            padding: 20px;
+            color: white;
+        }
+
+        .answers div input {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+        }
+
+        .answers div.Active {
+            background-color: #4CAF50; /* Change the background color when active */
+        }
+
+        button {
+            padding: 10px 20px;
+            border: 3px solid #ddd;
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .next {
+            background-color: chartreuse;
+            color: black;
+        }
+
+        .before {
+            background-color: #ddd;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .question {
+            display: none; /* Hide all questions initially */
+        }
+
+        .question.active {
+            display: block; /* Show active question */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Question 1 -->
+        <div class="question active">
+            <h1>هل تعتقد أن بنك الأفكار يساهم في مساعدتك على تطوير فكرتك؟</h1>
+            <div class="answers">
+                <div class="ans1">
+                    <input type="radio" name="q1" id="q1-yes-large">
+                    <p>نعم، بشكل كبير</p>
+                </div>
+                <div class="ans2">
+                    <input type="radio" name="q1" id="q1-yes-improve">
+                    <p>نعم، ولكن يحتاج لتحسين</p>
+                </div>
+                <div class="ans3">
+                    <input type="radio" name="q1" id="q1-no">
+                    <p>لا، لم يساعدني</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question">
+            <h1>ما تقييمك لطريقة عرض الأفكار عبر التطبيق؟</h1>
+            <div class="answers">
+                <div class="ans1">
+                    <input type="radio" name="q2" id="q2-excellent">
+                    <p>ممتاز</p>
+                </div>
+                <div class="ans2">
+                    <input type="radio" name="q2" id="q2-good">
+                    <p>جيد</p>
+                </div>
+                <div class="ans3">
+                    <input type="radio" name="q2" id="q2-average">
+                    <p>متوسط</p>
+                </div>
+                <div class="ans4">
+                    <input type="radio" name="q2" id="q2-poor">
+                    <p>ضعيف</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question">
+            <h1>ما أكثر شيء أعجبك في بنك الأفكار؟</h1>
+            <div class="answers">
+                <div class="ans1">
+                    <input type="radio" name="q3" id="q3-ease">
+                    <p>سهولة الاستخدام</p>
+                </div>
+                <div class="ans2">
+                    <input type="radio" name="q3" id="q3-variety">
+                    <p>تنوع الأفكار</p>
+                </div>
+                <div class="ans3">
+                    <input type="radio" name="q3" id="q3-support">
+                    <p>الدعم المقدم</p>
+                </div>
+                <div class="ans4">
+                    <input type="radio" name="q3" id="q3-other">
+                    <p>أخرى</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question">
+            <h1>ما التحديات التي واجهتها أثناء استخدام بنك الأفكار؟</h1>
+            <div class="answers">
+                <div class="ans1">
+                    <input type="radio" name="q4" id="q4-entry">
+                    <p>صعوبة في إدخال الأفكار</p>
+                </div>
+                <div class="ans2">
+                    <input type="radio" name="q4" id="q4-interaction">
+                    <p>ضعف في التفاعل</p>
+                </div>
+                <div class="ans3">
+                    <input type="radio" name="q4" id="q4-resources">
+                    <p>نقص الموارد</p>
+                </div>
+                <div class="ans4">
+                    <input type="radio" name="q4" id="q4-other">
+                    <p>أخرى</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="before">السابق</button>
+            <button class="next">التالي</button>
+        </div>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll(".answers div input");
+        const questions = document.querySelectorAll(".question");
+        let currentQuestionIndex = 0;
+
+        // Handle radio button click
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("click", function (event) {
+                const parentDiv = event.target.closest("div");
+
+                // Toggle the Active class based on the checkbox state
+                document.querySelectorAll(".answers div").forEach(div => {
+                    div.classList.remove("Active");
+                });
+
+                if (event.target.checked) {
+                    parentDiv.classList.add("Active");
+                }
+            });
+        });
+
+        document.querySelector(".next").addEventListener("click", function () {
+
+            questions[currentQuestionIndex].classList.remove("active");
+            currentQuestionIndex = Math.min(currentQuestionIndex + 1, questions.length - 1);
+            questions[currentQuestionIndex].classList.add("active");
+
+        });
+
+        // "Previous" button click to show the previous question
+
+        document.querySelector(".before").addEventListener("click", function () {
+
+            questions[currentQuestionIndex].classList.remove("active");
+            currentQuestionIndex = Math.max(currentQuestionIndex - 1, 0);
+            questions[currentQuestionIndex].classList.add("active");
+        
+        });
+    </script>
+</body>
+</html>
